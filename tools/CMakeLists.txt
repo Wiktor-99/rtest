@@ -45,15 +45,13 @@ else()
   )
 endif()
 
-target_link_libraries(common PRIVATE GTest::gmock)
-
 
 ament_target_dependencies(common
-  PUBLIC rclcpp #gmock_vendor
+  PUBLIC rclcpp gmock_vendor
 )
 
 ament_export_dependencies(
-  rclcpp #gmock_vendor
+  rclcpp gmock_vendor
 )
 
 
