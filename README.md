@@ -1,4 +1,11 @@
+![RTEST Logo](rtest/doc/logo.png)
+
+[![Licence](https://img.shields.io/github/license/Ileriayo/markdown-badges?style=for-the-badge)](./LICENSE)
+
+[![ROS 2 Jazzy CI](https://github.com/Beam-and-Spyrosoft/rtest/actions/workflows/ros2-pull-request.yml/badge.svg?branch=main)](https://github.com/Beam-and-Spyrosoft/rtest/actions/workflows/ros2-pull-request.yml)
+
 [![Static Code Analysis with clang-tidy](https://github.com/Beam-and-Spyrosoft/rtest/actions/workflows/ros2-clang-tidy.yml/badge.svg)](https://github.com/Beam-and-Spyrosoft/rtest/actions/workflows/ros2-clang-tidy.yml)
+
 
 # RTEST
 
@@ -6,12 +13,22 @@ This repository provides a suite of tools and utilities tailored for testing and
 
 The tools in this repository address challenges posed by ROS 2's inter-process communication, which can lead to inconsistent test results. By focusing on integration testing without revalidating the underlying RMW (ROS Middleware) implementations, this repository ensures a more streamlined and reliable testing process.
 
+This framework enables writing reliable, fully repeatable unit tests (and more) for C++ ROS 2 implementations, eliminating the issue of so-called "flaky tests".
+
 ## Contributors
 This repository and tooling was initally developed as a collaboration between [BEAM](https://beam.global/) and [Spyrosoft](https://spyro-soft.com/); and is maintained as a collaboration.
 
 ## Features
 
-- Example of the testing framework being used
+- Verifying whether the tested Node has created the necessary entities such as publishers, subscribers, timers, services, or clients.
+- Setting expectations on mocked entities, enabling verification of events such as publishing expected messages on a selected topic, sending a request by a client, or validating a service response.
+- Direct message passing to subscribers, or direct request injection to services and responding to clients.
+- Direct timer callbacks firing and simulated time control, resulting in immediate and precise time-dependent implementations testing.
+- Single-threaded, controllable test execution.
+
+## Documentation
+
+Complete documentation: [RTEST Documentation](https://rtest.readthedocs.io/en/latest/)
 
 ## Requirements
 
@@ -19,13 +36,13 @@ This repository and tooling was initally developed as a collaboration between [B
 - GoogleTest
 - ament_cmake_ros
 
-## Usage
+## Quick-Start
 
 1. Clone the repository:
     ```
     git clone https://github.com/yourusername/rtest.git
     ```
-2. To build and run the test examples:
+2. Build and run the test examples:
     ```
     colcon build && colcon test --packages-select rtest_examples --event-handlers console_cohesion+
     ```
@@ -47,7 +64,7 @@ Add a dependency to `rtest` in your `package.xml` file:
 
 Create a sub-folder `test` and add a `CMakeLists.txt` file there.
 
-> **WARNING**: The Rtest uses C++ template code substitution at the source level. You must build the unit under test directly from sources. Linking with a static or dynamic library will not work.
+> **WARNING**: The RTEST uses C++ template code substitution at the source level. You must build the unit under test directly from sources. Linking with a static or dynamic library will not work.
 
 Example `CMakeLists.txt`:
 
@@ -120,7 +137,12 @@ Use the appropriate find* function to locate the component created by your node:
 
 ### Mocking Phase
 
-Examples can be found in the `examples` folder.
+Once the interesting mocked entities are found, user can set up call expectaions or interact with them directly.
+
+
+### Examples
+
+Examples are located in the `examples` folder.
 
 
 ## License

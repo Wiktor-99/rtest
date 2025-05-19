@@ -4,7 +4,7 @@ This document is a declaration of software quality for the `rtest` package, base
 
 The package `rtest` claims to be in the **Quality Level 4** category.
 
-Below are the rationales, notes, and caveats for this claim, organized by each requirement listed in the [Package Quality Categories in REP-2004](https://docs.ros.org/en/jazzy/The-ROS2-Project/Contributing/Developer-Guide.html#quality-practices) of the ROS2 developer guide.
+Below are the rationales, notes, and caveats for this claim, organized by each requirement listed in the [Package Quality Categories in REP-2004](https://docs.ros.org/en/jazzy/The-ROS2-Project/Contributing/Developer-Guide.html#quality-practices) of the ROS 2 developer guide.
 
 ## Version Policy [1]
 
@@ -14,7 +14,7 @@ Below are the rationales, notes, and caveats for this claim, organized by each r
 ### Version Stability [1.ii]
 
 `rtest` is not at a stable version yet, i.e. `< 1.0.0`.
-The current version can be found in its [package.xml](package.xml), and its change history can be found in its [CHANGELOG](CHANGELOG.rst).
+The current version can be found in its [package.xml](package.xml), and its change history can be found in its [CHANGELOG](CHANGELOG.md).
 
 ### Public API Declaration [1.iii]
 All symbols in the installed headers are considered part of the public API.
@@ -66,31 +66,25 @@ All pull requests must resolve related documentation changes before merging.
 
 ### Feature Documentation [3.i]
 
-**[TODO]** Link to the documentation once it's available
-
-~~`rtest` has a documented feature list and it is hosted [here](<documentation_hosting_url>).~~
+`rtest` has a documented feature list and it is hosted [RTEST Documentation](https://rtest.readthedocs.io/en/latest/).
 
 ### Public API Documentation [3.ii]
 
-**[TODO]** Link to the Public API documentation once it's available
-
-~~`rtest` has documentation of its public API and it is hosted [here](http://docs.ros2.org/latest/api/rtest/index.html).~~
+`rtest` has documentation of its public API and it is hosted [C++ API](https://rtest.readthedocs.io/en/latest/cpp_api_docs.html).
 
 ### License [3.iii]
 
 The license for `rtest` is Apache 2.0, and a summary is in each source file, the type is declared in the [`package.xml`](./package.xml) manifest file, and a full copy of the license is in the [`LICENSE`](./LICENSE) file.
 
-**[TODO]** Add an enforced check that each source file contains a license statement and document it below.
-
-~~There is an automated test which runs a linter that ensures each file has a license statement. [Here](<link_to_latest_build_report>) can be found a list with the latest results of the various linters being run on the package.~~
+There is an automated test which runs a linter that ensures each file has a license statement. [Here](https://github.com/Beam-and-Spyrosoft/rtest/actions/workflows/ros2-pull-request.yml)
+can be found a list with the latest results of the various linters being run on the package.
 
 ### Copyright Statements [3.iv]
 
 The copyright holders each provide a statement of copyright in each source code file in `rtest`.
 
-**[TODO]** Add an enforced check that each source file contains at least one copyright statement.
-
-~~There is an automated test which runs a linter that ensures each file has at least one copyright statement. Latest linter result report can be seen [here](<link_to_latest_build_report>).~~
+There is an automated test which runs a linter that ensures each file has at least one copyright statement. Latest linter result report can be seen
+[here](https://github.com/Beam-and-Spyrosoft/rtest/actions/workflows/ros2-pull-request.yml).
 
 ### Package Quality Status [3.v]
 
@@ -130,7 +124,7 @@ This includes:
 
 Changes are required to make a best effort to keep or increase coverage before being accepted, but decreases are allowed if properly justified and accepted by reviewers.
 
-~~Current coverage statistics can be viewed [here](<link_to_latests_coverage_report>).~~
+Current coverage statistics can be viewed [here](https://github.com/Beam-and-Spyrosoft/rtest/actions/workflows/ros2-pull-request.yml).
 
 ### Performance [4.iv]
 
@@ -138,14 +132,9 @@ Changes are required to make a best effort to keep or increase coverage before b
 
 ### Linters and Static Analysis [4.v]
 
-**[TODO]** Add support for automated run of linters. Adopt [ROS C++ code style](https://docs.ros.org/en/jazzy/The-ROS2-Project/Contributing/Code-Style-Language-Versions.html#id3)
+`rtest` uses and passes all the ROS 2 standard linters and static analysis tools for a C++ package as described in the [ROS 2 Developer Guide](https://docs.ros.org/en/jazzy/The-ROS2-Project/Contributing/Developer-Guide.html#linters-and-static-analysis). Passing implies there are no linter/static errors when testing against CI of supported platforms.
 
-~~`rtest` uses and passes all the ROS 2 standard linters and static analysis tools for a C++ package as described in the [ROS 2 Developer Guide](https://docs.ros.org/en/jazzy/The-ROS2-Project/Contributing/Developer-Guide.html#linters-and-static-analysis). Passing implies there are no linter/static errors when testing against CI of supported platforms.~~
-
-~~Currently nightly test results can be seen here:~~
-~~* [linux-aarch64_release](https://ci.ros2.org/view/nightly/job/nightly_linux-aarch64_release/lastBuild/testReport/rtest/)~~
-~~* [linux-arm64_release](https://ci.ros2.org/view/nightly/job/nightly_linux_release/lastBuild/testReport/rtest/)~
-~~* [windows_release](https://ci.ros2.org/view/nightly/job/nightly_win_rel/lastBuild/testReport/rtest/)~~
+Currently nightly test results can be seen [here](https://github.com/Beam-and-Spyrosoft/rtest/actions/workflows/ros2-clang-tidy.yml)
 
 ## Dependencies [5]
 
@@ -183,12 +172,9 @@ It is **Quality Level 1**, see its [Quality Declaration document](https://github
 
 [TODO] Add support for all tier 1 platforms and include them in CI build.
 
-~~`rtest` supports all of the tier 1 platforms as described in [REP-2000](https://www.ros.org/reps/rep-2000.html#support-tiers), and tests each change against all of them.~~
+`rtest` supports all of the tier 1 platforms as described in [REP-2000](https://www.ros.org/reps/rep-2000.html#support-tiers), and tests each change against all of them.
 
-~~Currently nightly build status can be seen here:~~
-~~* [linux-aarch64_release](https://ci.ros2.org/view/nightly/job/nightly_linux-aarch64_release/lastBuild/rtest/)~~
-~~* [linux-arm64_release](https://ci.ros2.org/view/nightly/job/nightly_linux_release/lastBuild/rtest/)~~
-~~* [windows_release](https://ci.ros2.org/view/nightly/job/nightly_win_rel/lastBuild/rtest/)~~
+Currently build status can be seen [here](https://github.com/Beam-and-Spyrosoft/rtest/actions/workflows/ros2-pull-request.yml?query=branch%3Amain)
 
 ## Vulnerability Disclosure Policy [7.i]
 
@@ -225,12 +211,12 @@ The chart below compares the requirements in the REP-2004 with the current state
 |4| Testing | --- |
 |4.i| Feature items tests | ☓ |
 |4.ii| Public API tests | ☓ |
-|4.iii.a| Coverage tracking | ☓ |
-|4.iii.b| Enforced coverage policy | x |
+|4.iii.a| Coverage tracking | ✓ |
+|4.iii.b| Enforced coverage policy | ✓ |
 |4.iv.a| Performance tests (if applicable) | ☓ |
 |4.iv.b| Performance tests policy | ☓ |
-|4.v.a| Code style enforcement (linters) | ☓ |
-|4.v.b| Use of static analysis tools | ☓ |
+|4.v.a| Code style enforcement (linters) | ✓ |
+|4.v.b| Use of static analysis tools | ✓ |
 |5| Dependencies | --- |
 |5.i| Must not have ROS lower level dependencies | ✓ |
 |5.ii| Optional ROS lower level dependencies | ✓ |

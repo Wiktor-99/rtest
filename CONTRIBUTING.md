@@ -54,8 +54,8 @@ the code they are contributing to the project according to the
 ## Finding contributions to work on
 Looking at the existing issues is a great way to find something to contribute on.
 As this project, by default, uses the default GitHub issue labels
-  (enhancement/bug/duplicate/help wanted/invalid/question/wontfix), looking at any ['help wanted'][help-wanted] issues
-  is a great place to start.
+(enhancement/bug/duplicate/help wanted/invalid/question/wontfix), looking at any ['help wanted'][help-wanted] issues
+is a great place to start.
 
 
 ## Licensing
@@ -73,6 +73,6 @@ be under the Apache 2 License, as dictated by that
    with Licensor regarding such Contributions.
 ~~~
 
-[issues]: https://github.com/ros-controls/ros2_control/issues
-[closed-issues]: https://github.com/ros-controls/ros2_control/issues?utf8=%E2%9C%93&q=is%3Aissue%20is%3Aclosed%20
-[help-wanted]: https://github.com/ros-controls/ros2_control/issues?q=is%3Aopen+is%3Aissue+label%3A%22help+wanted%22
+[issues]: https://github.com/Beam-and-Spyrosoft/rtest/issues
+[closed-issues]: https://github.com/Beam-and-Spyrosoft/rtest/issues?q=is%3Aissue%20state%3Aclosed
+[help-wanted]: https://github.com/Beam-and-Spyrosoft/rtest/issues?q=is%3Aopen%20is%3Aissue%20label%3A%22help%20wanted%22
