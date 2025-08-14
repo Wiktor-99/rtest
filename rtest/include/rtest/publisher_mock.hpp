@@ -300,14 +300,14 @@ namespace rtest
  * @brief Convenience function for getting publisher object for given Node name and Topic name.
  *
  * @tparam MessageT Type of the ROS 2 message for the topic
- * @param fullyQualifiedNodeNamme Fully-qualified node name
+ * @param fullyQualifiedNodeName Fully-qualified node name
  * @param topicName               Topic name
  *
  * @return std::shared_ptr<rclcpp::Publisher<MessageT>>
  */
 template <typename MessageT>
 std::shared_ptr<PublisherMock<MessageT>> findPublisher(
-  const std::string & fullyQualifiedNodeNamme,
+  const std::string & fullyQualifiedNodeName,
   std::string topicName)
 {
   if (topicName.empty()) {
@@ -318,7 +318,7 @@ std::shared_ptr<PublisherMock<MessageT>> findPublisher(
   }
   std::shared_ptr<PublisherMock<MessageT>> pub_mock{};
   auto pub_base =
-    StaticMocksRegistry::instance().getPublisher(fullyQualifiedNodeNamme, topicName).lock();
+    StaticMocksRegistry::instance().getPublisher(fullyQualifiedNodeName, topicName).lock();
   auto publisher = std::dynamic_pointer_cast<rclcpp::Publisher<MessageT>>(pub_base);
   if (publisher) {
     if (StaticMocksRegistry::instance().getMock(publisher.get()).lock()) {
