@@ -193,15 +193,15 @@ namespace rtest
 /**
  * @brief Convenience function for getting a list of Timers created by thje given Node.
  *
- * @param fullyQualifiedNodeNamme Fully-qualified node name
+ * @param fullyQualifiedNodeName Fully-qualified node name
  *
  * @return std::vector<std::shared_ptr<rclcpp::TimerBase>>
  */
 static inline std::vector<std::shared_ptr<rclcpp::TimerBase>> findTimers(
-  const std::string & fullyQualifiedNodeNamme)
+  const std::string & fullyQualifiedNodeName)
 {
   std::vector<std::shared_ptr<rclcpp::TimerBase>> timers{};
-  for (auto & weakPtr : StaticMocksRegistry::instance().getTimers(fullyQualifiedNodeNamme)) {
+  for (auto & weakPtr : StaticMocksRegistry::instance().getTimers(fullyQualifiedNodeName)) {
     if (auto timer = weakPtr.lock()) {
       timers.push_back(timer);
     }

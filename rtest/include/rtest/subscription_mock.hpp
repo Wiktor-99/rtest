@@ -394,14 +394,14 @@ namespace rtest
  * @brief Convenience function for getting subscription object for given Node name and Topic name.
  *
  * @tparam MessageT Type of the ROS 2 message for the topic
- * @param fullyQualifiedNodeNamme Fully-qualified node name
+ * @param fullyQualifiedNodeName Fully-qualified node name
  * @param topicName               Topic name
  *
  * @return std::shared_ptr<rclcpp::Subscription<MessageT>>
  */
 template <typename MessageT>
 std::shared_ptr<rclcpp::Subscription<MessageT>> findSubscription(
-  const std::string & fullyQualifiedNodeNamme,
+  const std::string & fullyQualifiedNodeName,
   std::string topicName)
 {
   if (topicName.empty()) {
@@ -411,7 +411,7 @@ std::shared_ptr<rclcpp::Subscription<MessageT>> findSubscription(
     topicName.insert(topicName.begin(), '/');
   }
   auto sub =
-    StaticMocksRegistry::instance().getSubscription(fullyQualifiedNodeNamme, topicName).lock();
+    StaticMocksRegistry::instance().getSubscription(fullyQualifiedNodeName, topicName).lock();
   return std::dynamic_pointer_cast<rclcpp::Subscription<MessageT>>(sub);
 }
 
