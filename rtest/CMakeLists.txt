@@ -73,13 +73,15 @@ target_include_directories(rtest_common PUBLIC
   $<INSTALL_INTERFACE:include>)
 
 if(WIN32)
-MESSAGE ("WINDOWS")
+  MESSAGE ("WINDOWS")
   target_compile_options(rtest_common PUBLIC
-    "/FI${CMAKE_CURRENT_SOURCE_DIR}/include/rtest/includes_mock.hpp"
+    "$<BUILD_INTERFACE:/FI\"${CMAKE_CURRENT_SOURCE_DIR}/include/rtest/includes_mock.hpp\">"
+    "$<INSTALL_INTERFACE:/FI\"${CMAKE_INSTALL_PREFIX}/include/rtest/includes_mock.hpp\">"
   )
 else()
   target_compile_options(rtest_common PUBLIC
-    "SHELL:-include ${CMAKE_CURRENT_SOURCE_DIR}/include/rtest/includes_mock.hpp"
+    "$<BUILD_INTERFACE:-include;${CMAKE_CURRENT_SOURCE_DIR}/include/rtest/includes_mock.hpp>"
+    "$<INSTALL_INTERFACE:-include;${CMAKE_INSTALL_PREFIX}/include/rtest/includes_mock.hpp>"
   )
 endif()
 
