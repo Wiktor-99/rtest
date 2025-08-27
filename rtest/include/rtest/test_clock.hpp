@@ -42,30 +42,15 @@ public:
       throw std::invalid_argument{"TestClock - The node must be set with use_sim_time = true"};
     }
 
-    timers_ = findTimers(node);
     clock_ = node->get_clock()->get_clock_handle();
     resetClock();
   }
 
-  void advance(std::chrono::milliseconds milliseconds, bool with_timers_callbacks = true)
+  void advance(std::chrono::milliseconds milliseconds)
   {
-    const auto target_time = now_ + std::chrono::nanoseconds(milliseconds).count();
-    const auto step_size_ns = with_timers_callbacks
-                                ? std::chrono::nanoseconds(std::chrono::milliseconds(1)).count()
-                                : target_time;
-
-    while (now_ < target_time) {
-      const auto remaining = target_time - now_;
-      const auto step = std::min(step_size_ns, remaining);
-      now_ += step;
-
-      if (rcl_set_ros_time_override(clock_, now_) != RCL_RET_OK) {
-        throw std::runtime_error{"TestClock::advance() error"};
-      }
-
-      if (with_timers_callbacks) {
-        fire_all_timer_callbacks();
-      }
+    now_ += (milliseconds.count() * 1000000L);
+    if (rcl_set_ros_time_override(clock_, now_) != RCL_RET_OK) {
+      throw std::runtime_error{"TestClock::advanceMs() error"};
     }
   }
 
@@ -77,6 +62,43 @@ public:
       throw std::runtime_error{"TestClock::advanceMs() error"};
     }
   }
+
+private:
+  rcl_clock_t * clock_{nullptr};
+  rcl_time_point_value_t now_{0L};
+};
+
+/**
+ * @brief Test utility for manual time control. Takes over control over the given Node's clock.
+ *        The Node must be constructed with parameter "use_sim_time" set to true.
+ *        This implementation triggers timers' callbacks as well.
+ */
+class TriggeringTestClock
+{
+public:
+  TriggeringTestClock(rclcpp::Node::SharedPtr node)
+  : clock_{TestClock(node)}, timers_{findTimers(node)}
+  {
+  }
+
+  void advance(std::chrono::milliseconds milliseconds)
+  {
+    const auto target_time = milliseconds.count();
+    const auto step_size_ns = std::chrono::milliseconds(1).count();
+    rcl_time_point_value_t start_point = 0;
+
+    while (start_point < target_time) {
+      const auto remaining = target_time - start_point;
+      const auto step = std::min(step_size_ns, remaining);
+      start_point += step;
+      clock_.advance(std::chrono::milliseconds(step));
+      fire_all_timer_callbacks();
+    }
+  }
+
+  void advanceMs(int64_t milliseconds) { advance(std::chrono::milliseconds(milliseconds)); }
+
+  void resetClock(const rcl_time_point_value_t tv = 0L) { clock_.resetClock(tv); }
 
 private:
   void fire_all_timer_callbacks()
@@ -92,8 +114,8 @@ private:
     }
   }
 
-  rcl_clock_t * clock_{nullptr};
-  rcl_time_point_value_t now_{0L};
+  TestClock clock_;
   std::vector<std::shared_ptr<rclcpp::TimerBase>> timers_{};
 };
+
 }  // namespace rtest

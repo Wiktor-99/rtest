@@ -60,7 +60,7 @@ TEST_F(PubSubTest, WhenTheTimeIsMovedByTimerPeriodCallbackShouldBeExecuted)
   // set use sim timer for mocked timers
   opts = rclcpp::NodeOptions().parameter_overrides({rclcpp::Parameter("use_sim_time", true)});
   auto node = std::make_shared<test_composition::Publisher>(opts);
-  auto test_clock = rtest::TestClock{node};
+  auto triggering_test_clock = rtest::TriggeringTestClock{node};
 
   /// Retrieve the publisher created by the Node
   auto publisher = rtest::findPublisher<std_msgs::msg::String>(node, "/test_topic");
@@ -70,11 +70,22 @@ TEST_F(PubSubTest, WhenTheTimeIsMovedByTimerPeriodCallbackShouldBeExecuted)
   /// Set up expectation that the Node will publish a message when the timer callback is fired
   auto expectedMsg = std_msgs::msg::String{};
   expectedMsg.set__data("timer");
-  EXPECT_CALL(*publisher, publish(expectedMsg)).Times(1);
 
-  // We expect that timer triggers each 500ms
-  const bool move_timer_with_callbacks_execution = true;
-  test_clock.advance(std::chrono::milliseconds(500), move_timer_with_callbacks_execution);
+  // We do not expect the timer to trigger shortly before it reaches 500ms
+  EXPECT_CALL(*publisher, publish(expectedMsg)).Times(0);
+  triggering_test_clock.advance(std::chrono::milliseconds(499));
+
+  // We expect the timer to trigger every 500ms
+  EXPECT_CALL(*publisher, publish(expectedMsg)).Times(1);
+  triggering_test_clock.advance(std::chrono::milliseconds(1));
+
+  // We do not expect the timer to trigger after one period expires but before the next begins
+  EXPECT_CALL(*publisher, publish(expectedMsg)).Times(0);
+  triggering_test_clock.advance(std::chrono::milliseconds(499));
+
+  // We expect the timer to trigger every 500ms, so when the expiry time passes, the callback should fire
+  EXPECT_CALL(*publisher, publish(expectedMsg)).Times(1);
+  triggering_test_clock.advance(std::chrono::milliseconds(50));
 }
 
 TEST_F(PubSubTest, PublishIfSubscriuptionCountNonZeroTest)
